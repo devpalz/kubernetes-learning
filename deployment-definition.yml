@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+
+# This will create us the replicaset
+# The replicaset will create us the pods
+# Replicaset and Deployment - Immediately there is not much of a difference.
+
+kind: Deployment
+
+metadata:
+  name: myapp-deployment
+  labels:
+    app: myapp
+    type: front-end
+
+spec:
+  template:
+    metadata:
+      name: myapp-pod
+      labels:
+        app: myapp
+        type: front-end
+    spec:
+      containers:
+        - name: nginx-container
+          image: nginx
+
+  replicas: 3
+  selector:
+    matchLabels:
+      type: front-end

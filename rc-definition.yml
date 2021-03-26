@@ -1,0 +1,29 @@
+apiVersion: v1
+
+# Note - ReplicationController is deprecated in favour of replicaset.
+
+# Upon running this, the ReplicationController will create 3 pods, the pod definition will be taken
+# from the spec.template.
+
+kind: ReplicationController
+
+metadata:
+  name: myapp-rc
+  labels:
+    app: myapp
+    type: front-end
+
+spec:
+  template:
+    # Remember your pod definitions?
+    metadata:
+      name: myapp-pod
+      labels:
+        app: myapp
+        type: front-end
+    spec:
+      containers:
+        - name: nginx-container
+          image: nginx
+
+  replicas: 3

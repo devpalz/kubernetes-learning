@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+
+# Monitors the pods, and if any of them fail, it will deploy new ones.
+# The replica set knows which pods to monitor because of labelling.
+kind: ReplicaSet
+
+metadata:
+  name: myapp
+  labels:
+    app: myapp
+
+spec:
+  template:
+    metadata:
+      name: myapp-pod
+      labels:
+        app: myapp
+        type: front-end
+    spec:
+      containers:
+        - name: nginx-container
+          image: nginx
+replicas: 3
+# Identify which pods fall under the replica set.
+# Replica set can manage pods that were not created as part of the replica set. So if there
+# were pods created before the replica set was created, using the selector will all the replica set
+# to take them into account.
+selector:
+  matchLabels:
+    type: front-end
+
+
+
+# You always needs to provide the template, even if you already have 3 pods and just want to replicaset too
+# monitor these pods, incase one fails Kube needs to know how to create another.
